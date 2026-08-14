@@ -62,7 +62,7 @@ for (platform in brainarrayPlatforms) {
   tempPackageFileName = basename(packageUrl)
   tempPackageFilePath = paste0(tempdir(), "/", tempPackageFileName)
 
-  message("Attempting to download ", tempPackageFileName, " from BrainArray")
+  message("Attempting to download ", tempPackageFileName, " from BrainArray with URL: ", packageUrl)
   download_brainarray_file(packageUrl, tempPackageFilePath)
   message("Downloaded ", tempPackageFileName, " from BrainArray")
   install.packages(tempPackageFilePath, repos = NULL, type = "source")
