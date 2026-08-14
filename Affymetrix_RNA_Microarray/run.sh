@@ -51,4 +51,4 @@ run_rscript() {
 }
 
 # run_rscript "download_CEL_files.R"
-run_rscript "download_metadata.R"
+# run_rscript "download_metadata.R"
