@@ -31,7 +31,6 @@ download_brainarray_file = function(url, destfile) {
       "--speed-time", "30",
       "--speed-limit", "1000",
       "--http1.0",
-      "--header=Connection:close",
       "-C-",
       "-o", destfile,
       url
