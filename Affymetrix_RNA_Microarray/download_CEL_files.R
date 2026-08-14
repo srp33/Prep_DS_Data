@@ -2,6 +2,8 @@ library(tidyverse)
 library(readxl)
 library(GEOquery)
 
+options(timeout = 10000) # Allows very large tar files to still download.
+
 datasets = read_xlsx("/project/datasets.xlsx")
 
 geo_ids = datasets %>%
