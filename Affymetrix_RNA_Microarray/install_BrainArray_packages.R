@@ -19,11 +19,14 @@ brainarrayPlatforms = read_xlsx("/project/datasets.xlsx") %>%
   pull(brainarray)
 
 for (platform in brainarrayPlatforms) {
+          # "http://brainarray.mbni.med.umich.edu/customcdf/", version,
   packageUrl = paste0(
-    "https://web.archive.org/web/20240710114225/http://brainarray.mbni.med.umich.edu/customcdf/", version,
+    "http://mbni.org/customcdf/", version,
     "/", annotationSource, ".download/",
     platform, annotationSource, "probe_", version, ".tar.gz"
   )
+  # https://web.archive.org/web/20240710114225/http://mbni.org/customcdf/25.0.0/ensg.download/mogene10stmmensgprobe_25.0.0.tar.gz
+  # https://web.archive.org/web/20240710102334/http://mbni.org/customcdf/25.0.0/ensg.download/mogene10stmmensgprobe_25.0.0.tar.gz
 
   tempPackageFileName = basename(packageUrl)
   tempPackageFilePath = paste0(tempdir(), "/", tempPackageFileName)
