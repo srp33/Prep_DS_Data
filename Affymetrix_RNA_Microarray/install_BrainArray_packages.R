@@ -17,7 +17,6 @@ brainarrayPlatforms = read_xlsx("/project/datasets.xlsx") %>%
   filter(brainarray != "") %>%
   distinct(brainarray) %>%
   pull(brainarray)
-  ##
 
 for (platform in brainarrayPlatforms) {
   packageUrl = paste0(
