@@ -17,8 +17,6 @@ brainarrayPlatforms = read_xlsx("/project/datasets.xlsx") %>%
   filter(brainarray != "") %>%
   distinct(brainarray) %>%
   pull(brainarray)
-print(brainarrayPlatforms)
-stop()
 
 # Package names follow BrainArray's {platform}{source}probe convention.
 brainarrayPackageNames = paste0(brainarrayPlatforms, annotationSource, "probe")
@@ -40,7 +38,7 @@ if (length(missingPackageNames) == 0) {
   # Zenodo is used instead of the Michigan HTTP server, which stalls on large files.
   # 30-minute timeout: the archive is ~700 MB.
   options(timeout = max(1800, getOption("timeout")))
-  zenodoZipUrl = "https://zenodo.org/records/17808641/files/BrainArray.zip?download=1"
+  zenodoZipUrl = "https://zenodo.org/records/21986597/files/BrainArray.zip?download=1"
   message("Downloading BrainArray.zip from Zenodo")
   download.file(zenodoZipUrl, zipFilePath, mode = "wb")
   unzip(zipFilePath, exdir = tempDir)
