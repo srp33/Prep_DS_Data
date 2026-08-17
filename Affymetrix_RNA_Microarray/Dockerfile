@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install R/Bioconductor packages (not included in the base image)
 RUN R -e "BiocManager::install('tidyverse', ask = FALSE, update = FALSE)"
+RUN R -e "BiocManager::install('AnnotationDbi', ask = FALSE, update = FALSE)"
 
 ADD install_BrainArray_packages.R /project/
 ADD datasets.xlsx /project/
