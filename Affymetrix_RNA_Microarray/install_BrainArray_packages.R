@@ -17,6 +17,8 @@ brainarrayPlatforms = read_xlsx("/project/datasets.xlsx") %>%
   filter(brainarray != "") %>%
   distinct(brainarray) %>%
   pull(brainarray)
+print(brainarrayPlatforms)
+stop()
 
 # Package names follow BrainArray's {platform}{source}probe convention.
 brainarrayPackageNames = paste0(brainarrayPlatforms, annotationSource, "probe")
