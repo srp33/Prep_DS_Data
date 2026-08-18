@@ -42,7 +42,10 @@ for (geo_id in geo_ids) {
   isCelFile = grepl("\\.CEL(\\.gz)?$", basename(allFiles), ignore.case = TRUE)
   nonCelFiles = allFiles[!isCelFile]
   if (length(nonCelFiles) > 0) {
-    message("Removing ", length(nonCelFiles), " non-CEL file(s) from ", geo_id)
+    message(
+      "Removing ", length(nonCelFiles), " non-CEL file(s) from ", geo_id, ": ",
+      paste(basename(nonCelFiles), collapse = ", ")
+    )
     file.remove(nonCelFiles)
   }
 
