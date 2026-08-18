@@ -33,19 +33,33 @@ for (geo_id in geo_ids) {
 
   message("Downloading CEL files for ", geo_id, " (this can take a while for large series)")
   getGEOSuppFiles(geo_id, makeDirectory = TRUE, baseDir = celDirPath)
-  untar(tarFilePath, exdir = paste0(celDirPath, "/", geo_id))
+  untar(tarFilePath, exdir = geoDirPath)
   file.remove(tarFilePath)
 
-  # Rename CEL files to GSM######.CEL.gz (case-insensitive match; always uppercase GSM/CEL).
-  celFiles = list.files(geoDirPath, pattern = "\\.CEL\\.gz$", ignore.case = TRUE, full.names = TRUE)
+  # GEO supplementary files often include CHP or other non-CEL data; keep CEL only.
+  allFiles = list.files(geoDirPath, full.names = TRUE)
+  allFiles = allFiles[!dir.exists(allFiles)]
+  isCelFile = grepl("\\.CEL(\\.gz)?$", basename(allFiles), ignore.case = TRUE)
+  nonCelFiles = allFiles[!isCelFile]
+  if (length(nonCelFiles) > 0) {
+    message("Removing ", length(nonCelFiles), " non-CEL file(s) from ", geo_id)
+    file.remove(nonCelFiles)
+  }
 
+  celFiles = allFiles[isCelFile]
+  if (length(celFiles) == 0) {
+    stop("No CEL files found for ", geo_id, " after removing non-CEL files")
+  }
+
+  # Rename CEL files to GSM######.CEL.gz (or .CEL if uncompressed).
   for (celFile in celFiles) {
     gsmMatch = str_match(basename(celFile), regex("^GSM(\\d+)", ignore_case = TRUE))
     if (is.na(gsmMatch[1, 1])) {
       next
     }
 
-    newCelPath = file.path(geoDirPath, paste0("GSM", gsmMatch[1, 2], ".CEL.gz"))
+    celExtension = if (grepl("\\.gz$", celFile, ignore.case = TRUE)) ".CEL.gz" else ".CEL"
+    newCelPath = file.path(geoDirPath, paste0("GSM", gsmMatch[1, 2], celExtension))
     if (!identical(celFile, newCelPath)) {
       file.rename(celFile, newCelPath)
     }
