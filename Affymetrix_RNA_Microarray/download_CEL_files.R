@@ -65,5 +65,4 @@ for (geo_id in geo_ids) {
     }
   }
   message("Files for ", geo_id, " downloaded and stored in ", geoDirPath)
-  break
 }
