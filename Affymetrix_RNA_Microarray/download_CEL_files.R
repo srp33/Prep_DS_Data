@@ -31,6 +31,7 @@ for (geo_id in geo_ids) {
     next
   }
 
+  message("Downloading CEL files for ", geo_id, " (this can take a while for large series)")
   getGEOSuppFiles(geo_id, makeDirectory = TRUE, baseDir = celDirPath)
   untar(tarFilePath, exdir = paste0(celDirPath, "/", geo_id))
   file.remove(tarFilePath)
