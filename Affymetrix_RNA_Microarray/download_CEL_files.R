@@ -16,14 +16,27 @@ for (geo_id in geo_ids) {
     dir.create(celDirPath, recursive = TRUE)
   }
 
+  geoDirPath = paste0(celDirPath, "/", geo_id)
+
   tarFilePath = paste0(celDirPath, "/", geo_id, "/", geo_id, "_RAW.tar")
+
+  # Skip series that were already downloaded and unpacked (failed runs may
+  # leave an empty directory or only the RAW.tar).
+  existingCelFiles = list.files(
+    geoDirPath,
+    pattern = "\\.CEL(\\.gz)?$",
+    ignore.case = TRUE
+  )
+  if (length(existingCelFiles) > 0) {
+    message("Skipping ", geo_id, ": CEL files already present")
+    next
+  }
 
   getGEOSuppFiles(geo_id, makeDirectory = TRUE, baseDir = celDirPath)
   untar(tarFilePath, exdir = paste0(celDirPath, "/", geo_id))
   file.remove(tarFilePath)
 
   # Rename CEL files to GSM######.CEL.gz (case-insensitive match; always uppercase GSM/CEL).
-  geoDirPath = paste0(celDirPath, "/", geo_id)
   celFiles = list.files(geoDirPath, pattern = "\\.CEL\\.gz$", ignore.case = TRUE, full.names = TRUE)
 
   for (celFile in celFiles) {
@@ -37,4 +50,6 @@ for (geo_id in geo_ids) {
       file.rename(celFile, newCelPath)
     }
   }
+  message("Files for ", geo_id, " downloaded and stored in ", geoDirPath)
+  break
 }
