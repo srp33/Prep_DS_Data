@@ -11,14 +11,13 @@ geo_ids = datasets %>%
   pull(series_id)
 
 for (geo_id in geo_ids) {
-  celDirPath = "/project/GEO/"
+  celDirPath = "/project/GEO"
   if (!dir.exists(celDirPath)){
     dir.create(celDirPath, recursive = TRUE)
   }
 
   geoDirPath = paste0(celDirPath, "/", geo_id)
-
-  tarFilePath = paste0(celDirPath, "/", geo_id, "/", geo_id, "_RAW.tar")
+  tarFilePath = paste0(geoDirPath, "/", geo_id, "_RAW.tar")
 
   # Skip series that were already downloaded and unpacked (failed runs may
   # leave an empty directory or only the RAW.tar).
